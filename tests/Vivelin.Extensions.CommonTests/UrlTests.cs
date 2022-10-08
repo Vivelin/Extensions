@@ -37,5 +37,19 @@ namespace Vivelin.Extensions.CommonTests
 
             url.ToString().Should().Be("https://localhost:8080/api/test?key=1234.56");
         }
+
+        [Theory]
+        [InlineData("key", "1=2", "key=1%3D2")]
+        [InlineData("1=2", "value", "1%3D2=value")]
+        public void Url_ToString_EncodesQueryValues(string key, string value, string expected)
+        {
+            var query = new KeyValuePair<string, object>[]
+            {
+                new(key, value)
+            };
+            var url = new Url("https", "localhost", 8080, "/api/test", query, null);
+
+            url.ToString().Should().Be($"https://localhost:8080/api/test?{expected}");
+        }
     }
 }
