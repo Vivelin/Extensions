@@ -47,7 +47,7 @@ public class Url
 		{
 			builder.Append('?');
 			var queryString = Query
-				.Select(x => $"{x.Key}={x.Value}")
+				.Select(x => FormattableString.Invariant($"{x.Key}={x.Value}"))
 				.Join('&');
 			builder.Append(queryString);
 		}
